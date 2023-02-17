@@ -1,0 +1,30 @@
+server:
+  port: 80
+
+spring:
+  application:
+    name: microservice-product-80 #这个很重要，这在以后的服务与服务之间相互调用一般都是根据这个name
+eureka:
+  client:
+    registerWithEureka: true # 服务注册开关
+    fetchRegistry: true # 服务发现开关
+    serviceUrl: # 客户端(服务提供者)注册到哪一个Eureka Server服务注册中心，多个用逗号分隔
+      # 单机版 Eureka 服务注册中心
+      #defaultZone: http://localhost:6001/eureka
+      # 集群版 Eureka 服务注册中心
+      defaultZone: http://eureka6001.com:6001/eureka,http://eureka6002.com:6002/eureka
+  instance:
+    instanceId: ${spring.application.name}:${server.port}-feign # 指定实例ID,就不会显示主机名了
+    preferIpAddress: true #访问路径可以显示IP地址
+
+#eureka:
+#  client:
+#    registerWithEureka: false # 服务注册，false表示不将本消费者注册到 Eureka 服务器
+#    fetchRegistry: true # 服务发现，true从 Eureka 服务器中获取注册信息
+#    serviceUrl:
+#      defaultZone: http://eureka6001.com:6001/eureka/,http://eureka6002.com:6002/eureka/
+
+# 客户端服务熔断
+#feign:
+#  hystrix:
+#    enabled: true # 开启服务熔断器
